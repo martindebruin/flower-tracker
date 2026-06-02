@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head><meta charset="UTF-8"><title>Lilla Essingen Flower Tracker</title></head>
+<body>
+<h1>Lilla Essingen Flower Tracker</h1>
+{% if reading %}
+  <p>Ettan: {% if reading.ettan == 'wet' %}Våt{% else %}Torr{% endif %}</p>
+  <p>Spansk timjan: {% if reading.spansk_timjan == 'wet' %}Våt{% else %}Torr{% endif %}</p>
+  <p>Sista: {{ reading.timestamp[:16].replace('T', ' ') }}</p>
+{% else %}
+  <p>Ingen avläsning</p>
+{% endif %}
+<form method="post" action="/read-now"><button type="submit">LÄS NU</button></form>
+</body>
+</html>
