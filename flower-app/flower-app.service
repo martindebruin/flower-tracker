@@ -1,0 +1,14 @@
+[Unit]
+Description=Lilla Essingen Flower Tracker
+After=network.target
+
+[Service]
+User=martin
+WorkingDirectory=/home/martin/flower-app
+EnvironmentFile=/home/martin/flower-app/.env
+ExecStart=/home/martin/flower-app/venv/bin/python app.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,14 @@
+[Unit]
+Description=Flower Sensor API
+After=network.target
+
+[Service]
+User=martin
+WorkingDirectory=/home/martin/flower-sensor-api
+EnvironmentFile=/home/martin/flower-sensor-api/.env
+ExecStart=/home/martin/flower-sensor-api/venv/bin/python sensor_api.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
