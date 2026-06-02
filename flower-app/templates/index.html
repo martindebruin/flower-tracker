@@ -1,15 +1,118 @@
 <!DOCTYPE html>
 <html lang="sv">
-<head><meta charset="UTF-8"><title>Lilla Essingen Flower Tracker</title></head>
+<head>
+    <meta charset="UTF-8">
+    <title>Lilla Essingen Flower Tracker</title>
+    <style>
+        body {
+            background-color: #0d0d0d;
+            color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            gap: 2rem;
+            padding: 2rem;
+            font-family: sans-serif;
+        }
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #888;
+        }
+        .plants {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            max-width: 600px;
+            width: 100%;
+        }
+        .plant-name {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .plant-row {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .badge {
+            font-size: 2rem;
+            font-weight: 800;
+            padding: 0.4rem 1.2rem;
+            border-radius: 0.4rem;
+            text-transform: uppercase;
+        }
+        .wet {
+            background-color: #1a4d2e;
+            color: #4cff80;
+        }
+        .dry {
+            background-color: #4d1a1a;
+            color: #ff4c4c;
+        }
+        .unknown {
+            background-color: #333;
+            color: #888;
+        }
+        .timestamp {
+            font-size: 1rem;
+            color: #555;
+        }
+        .btn-read {
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 1rem 3rem;
+            background-color: #1a1a1a;
+            border: 2px solid #333;
+            border-radius: 0.4rem;
+            color: #f0f0f0;
+            cursor: pointer;
+        }
+    </style>
+</head>
 <body>
-<h1>Lilla Essingen Flower Tracker</h1>
-{% if reading %}
-  <p>Ettan: {% if reading.ettan == 'wet' %}Våt{% else %}Torr{% endif %}</p>
-  <p>Spansk timjan: {% if reading.spansk_timjan == 'wet' %}Våt{% else %}Torr{% endif %}</p>
-  <p>Sista: {{ reading.timestamp[:16].replace('T', ' ') }}</p>
-{% else %}
-  <p>Ingen avläsning</p>
-{% endif %}
-<form method="post" action="/read-now"><button type="submit">LÄS NU</button></form>
+    <h1>Lilla Essingen Flower Tracker</h1>
+    
+    <div class="plants">
+        {% if reading %}
+            <div class="plant-row">
+                <div class="plant-name">Ettan</div>
+                <div class="badge {{ 'wet' if reading.ettan == 'wet' else 'dry' if reading.ettan == 'dry' else 'unknown' }}">
+                    {{ 'Våt' if reading.ettan == 'wet' else 'Torr' if reading.ettan == 'dry' else 'Okänd' }}
+                </div>
+                <div class="timestamp">Sista: {{ reading.timestamp[:16].replace('T', ' ') }}</div>
+            </div>
+            
+            <div class="plant-row">
+                <div class="plant-name">Spansk timjan</div>
+                <div class="badge {{ 'wet' if reading.spansk_timjan == 'wet' else 'dry' if reading.spansk_timjan == 'dry' else 'unknown' }}">
+                    {{ 'Våt' if reading.spansk_timjan == 'wet' else 'Torr' if reading.spansk_timjan == 'dry' else 'Okänd' }}
+                </div>
+                <div class="timestamp">Sista: {{ reading.timestamp[:16].replace('T', ' ') }}</div>
+            </div>
+        {% else %}
+            <div class="plant-row">
+                <div class="plant-name">Ettan</div>
+                <div class="badge unknown">Okänd</div>
+                <div class="timestamp">Ingen avläsning</div>
+            </div>
+            
+            <div class="plant-row">
+                <div class="plant-name">Spansk timjan</div>
+                <div class="badge unknown">Okänd</div>
+                <div class="timestamp">Ingen avläsning</div>
+            </div>
+        {% endif %}
+    </div>
+    
+    <form method="post" action="/read-now">
+        <button class="btn-read" type="submit">LÄS NU</button>
+    </form>
 </body>
 </html>
