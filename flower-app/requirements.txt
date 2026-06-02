@@ -1,0 +1,6 @@
+flask
+apscheduler
+aioesphomeapi
+python-dotenv
+requests
+pytest
