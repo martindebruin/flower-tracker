@@ -21,7 +21,5 @@ def notify_if_dry(ettan: str, spansk_timjan: str):
         messages.append("VATTNA ETTAN")
     if spansk_timjan == "dry":
         messages.append("VATTNA SPANSK TIMJAN")
-    if not messages:
-        return
-    combined = "  ".join(messages)
+    combined = "  ".join(messages) if messages else "JUST YOLO IT"
     asyncio.run(_send_to_matrix(combined))
