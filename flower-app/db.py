@@ -13,18 +13,19 @@ def init_db():
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 timestamp TEXT,
                 ettan TEXT,
-                spansk_timjan TEXT
+                spansk_timjan TEXT,
+                nummer_3 TEXT
             )
         ''')
         conn.commit()
 
-def save_reading(timestamp, ettan, spansk_timjan):
+def save_reading(timestamp, ettan, spansk_timjan, nummer_3):
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
         cursor.execute('''
-            INSERT INTO readings (timestamp, ettan, spansk_timjan)
-            VALUES (?, ?, ?)
-        ''', (timestamp, ettan, spansk_timjan))
+            INSERT INTO readings (timestamp, ettan, spansk_timjan, nummer_3)
+            VALUES (?, ?, ?, ?)
+        ''', (timestamp, ettan, spansk_timjan, nummer_3))
         
         # Radera gamla mätningar
         cutoff_date = (datetime.utcnow() - timedelta(days=30)).isoformat()
@@ -50,6 +51,7 @@ def get_latest():
             return {
                 'timestamp': row['timestamp'],
                 'ettan': row['ettan'],
-                'spansk_timjan': row['spansk_timjan']
+                'spansk_timjan': row['spansk_timjan'],
+                'nummer_3': row['nummer_3']
             }
         return None

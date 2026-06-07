@@ -15,11 +15,13 @@ async def _send_to_matrix(message: str):
     await asyncio.sleep(0.3)
     await client.disconnect()
 
-def notify_if_dry(ettan: str, spansk_timjan: str):
+def notify_if_dry(ettan: str, spansk_timjan: str, nummer_3: str):
     messages = []
     if ettan == "dry":
         messages.append("VATTNA ETTAN")
     if spansk_timjan == "dry":
         messages.append("VATTNA SPANSK TIMJAN")
+    if nummer_3 == "dry":
+        messages.append("VATTNA NUMMER 3")
     combined = "  ".join(messages) if messages else "JUST YOLO IT"
     asyncio.run(_send_to_matrix(combined))

@@ -96,15 +96,29 @@
                 </div>
                 <div class="timestamp">Sista: {{ reading.timestamp[:16].replace('T', ' ') }}</div>
             </div>
+
+            <div class="plant-row">
+                <div class="plant-name">Nummer 3</div>
+                <div class="badge {{ 'wet' if reading.nummer_3 == 'wet' else 'dry' if reading.nummer_3 == 'dry' else 'unknown' }}">
+                    {{ 'Våt' if reading.nummer_3 == 'wet' else 'Torr' if reading.nummer_3 == 'dry' else 'Okänd' }}
+                </div>
+                <div class="timestamp">Sista: {{ reading.timestamp[:16].replace('T', ' ') }}</div>
+            </div>
         {% else %}
             <div class="plant-row">
                 <div class="plant-name">Ettan</div>
                 <div class="badge unknown">Okänd</div>
                 <div class="timestamp">Ingen avläsning</div>
             </div>
-            
+
             <div class="plant-row">
                 <div class="plant-name">Spansk timjan</div>
+                <div class="badge unknown">Okänd</div>
+                <div class="timestamp">Ingen avläsning</div>
+            </div>
+
+            <div class="plant-row">
+                <div class="plant-name">Nummer 3</div>
                 <div class="badge unknown">Okänd</div>
                 <div class="timestamp">Ingen avläsning</div>
             </div>

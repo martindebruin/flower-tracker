@@ -9,6 +9,7 @@ import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(17, GPIO.IN)
 GPIO.setup(22, GPIO.IN)
+GPIO.setup(27, GPIO.IN)
 
 # Load environment variables
 load_dotenv()
@@ -20,10 +21,12 @@ app = Flask(__name__)
 def read_sensors():
     ettan = "wet" if GPIO.input(17) == 0 else "dry"
     spansk_timjan = "wet" if GPIO.input(22) == 0 else "dry"
+    nummer_3 = "wet" if GPIO.input(27) == 0 else "dry"
     timestamp = datetime.datetime.now().isoformat()
     return jsonify({
         "ettan": ettan,
         "spansk_timjan": spansk_timjan,
+        "nummer_3": nummer_3,
         "timestamp": timestamp
     })
 

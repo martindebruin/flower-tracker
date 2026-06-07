@@ -19,8 +19,8 @@ def do_read():
         response = requests.get(f"{FLOWER_URL}/read", timeout=10)
         response.raise_for_status()
         data = response.json()
-        db.save_reading(data['timestamp'], data['ettan'], data['spansk_timjan'])
-        led.notify_if_dry(data['ettan'], data['spansk_timjan'])
+        db.save_reading(data['timestamp'], data['ettan'], data['spansk_timjan'], data['nummer_3'])
+        led.notify_if_dry(data['ettan'], data['spansk_timjan'], data['nummer_3'])
     except Exception as e:
         print(f"Error in do_read: {e}")
 
