@@ -12,46 +12,37 @@ def init_db():
             CREATE TABLE IF NOT EXISTS readings (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 timestamp TEXT,
-                ettan TEXT,
+                tradescantia TEXT,
+                african_milk_bush TEXT,
                 spansk_timjan TEXT,
-                nummer_3 TEXT
+                palettbladen TEXT
             )
         ''')
         conn.commit()
 
-def save_reading(timestamp, ettan, spansk_timjan, nummer_3):
+def save_reading(timestamp, tradescantia, african_milk_bush, spansk_timjan, palettbladen):
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
         cursor.execute('''
-            INSERT INTO readings (timestamp, ettan, spansk_timjan, nummer_3)
-            VALUES (?, ?, ?, ?)
-        ''', (timestamp, ettan, spansk_timjan, nummer_3))
-        
-        # Radera gamla mätningar
+            INSERT INTO readings (timestamp, tradescantia, african_milk_bush, spansk_timjan, palettbladen)
+            VALUES (?, ?, ?, ?, ?)
+        ''', (timestamp, tradescantia, african_milk_bush, spansk_timjan, palettbladen))
         cutoff_date = (datetime.utcnow() - timedelta(days=30)).isoformat()
-        cursor.execute('''
-            DELETE FROM readings
-            WHERE timestamp < ?
-        ''', (cutoff_date,))
-        
+        cursor.execute('DELETE FROM readings WHERE timestamp < ?', (cutoff_date,))
         conn.commit()
 
 def get_latest():
     with sqlite3.connect(DB_PATH) as conn:
         conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
-        cursor.execute('''
-            SELECT * FROM readings
-            ORDER BY timestamp DESC
-            LIMIT 1
-        ''')
+        cursor.execute('SELECT * FROM readings ORDER BY timestamp DESC LIMIT 1')
         row = cursor.fetchone()
-        
         if row:
             return {
                 'timestamp': row['timestamp'],
-                'ettan': row['ettan'],
+                'tradescantia': row['tradescantia'],
+                'african_milk_bush': row['african_milk_bush'],
                 'spansk_timjan': row['spansk_timjan'],
-                'nummer_3': row['nummer_3']
+                'palettbladen': row['palettbladen']
             }
         return None

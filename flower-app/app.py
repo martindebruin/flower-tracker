@@ -1,4 +1,5 @@
 import os
+import datetime
 import requests
 from flask import Flask, render_template, redirect, url_for
 from dotenv import load_dotenv
@@ -12,15 +13,22 @@ load_dotenv()
 db.init_db()
 
 app = Flask(__name__)
-FLOWER_URL = os.getenv('FLOWER_URL', 'http://192.168.0.29:5566')
+ESP32_SENSOR_HOST = os.getenv('ESP32_SENSOR_HOST', 'ESP32_SENSOR_HOST')
+
+def read_sensor(sensor_id):
+    response = requests.get(f"http://{ESP32_SENSOR_HOST}/binary_sensor/{sensor_id}", timeout=10)
+    response.raise_for_status()
+    return "wet" if response.json()['value'] else "dry"
 
 def do_read():
     try:
-        response = requests.get(f"{FLOWER_URL}/read", timeout=10)
-        response.raise_for_status()
-        data = response.json()
-        db.save_reading(data['timestamp'], data['ettan'], data['spansk_timjan'], data['nummer_3'])
-        led.notify_if_dry(data['ettan'], data['spansk_timjan'], data['nummer_3'])
+        tradescantia = read_sensor('tradescantia_pallida')
+        african_milk_bush = read_sensor('african_milk_bush')
+        spansk_timjan = read_sensor('spansk_timjan')
+        palettbladen = read_sensor('palettbladen')
+        timestamp = datetime.datetime.now().isoformat()
+        db.save_reading(timestamp, tradescantia, african_milk_bush, spansk_timjan, palettbladen)
+        led.notify_if_dry(tradescantia, african_milk_bush, spansk_timjan, palettbladen)
     except Exception as e:
         print(f"Error in do_read: {e}")
 

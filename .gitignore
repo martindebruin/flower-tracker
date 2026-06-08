@@ -4,3 +4,4 @@ __pycache__/
 venv/
 *.db
 .aider*
+esp32-sensor/secrets.yaml
