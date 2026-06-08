@@ -5,12 +5,12 @@ Soil moisture monitoring for houseplants. Reads 4 sensors, shows status on a web
 ## Architecture
 
 ```
-ESP32-C6 (ESP32_SENSOR_HOST)          rpi-ess-general (RPI_GENERAL_HOST)
+ESP32-C6                          rpi-ess-general
 ├── 4× moisture sensors      →    flower-app (Flask, port 5566)
 │   via DO pins + ESPHome         ├── polls ESP32 every 2h
 │   binary_sensor REST API        ├── SQLite storage
-│                                 ├── Web UI (Tailscale: TAILSCALE_HOST:5566)
-│                                 └── LED matrix alerts (LED_MATRIX_HOST)
+│                                 ├── Web UI (Tailscale)
+│                                 └── LED matrix alerts
 
 rpi-ess-flower (RPi Zero 2 W H)
 └── 1602 I2C LCD
@@ -34,7 +34,7 @@ rpi-ess-flower (RPi Zero 2 W H)
 - RPi Zero 2 W H (`rpi-ess-flower`) — LCD display
 - RPi (`rpi-ess-general`) — web app + LED matrix controller
 - 1602 I2C LCD (GJD 1602IIC, address 0x3f) — local plant status display
-- ESP32-C6 LED matrix (LED_MATRIX_HOST) — dry plant alerts
+- ESP32-C6 LED matrix — dry plant alerts
 
 ## Services
 
