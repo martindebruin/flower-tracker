@@ -14,7 +14,7 @@ ESP32-C6                          RPi (web server)
 
 RPi Zero 2 W H (sensor display)
 └── 1602 I2C LCD
-    cycles through plant status every 3s
+    cycles through plants every 3s, refreshes data every 2h
 ```
 
 ## Plants
