@@ -1,8 +1,11 @@
+import os
 import time
 import requests
+from dotenv import load_dotenv
 from RPLCD.i2c import CharLCD
 
-ESP32_HOST = "ESP32_SENSOR_HOST"
+load_dotenv(os.path.join(os.path.dirname(__file__), '..', 'config.env'))
+ESP32_HOST = os.getenv('ESP32_SENSOR_HOST', 'flower-sensor.local')
 POLL_INTERVAL = 2 * 60 * 60  # 2 hours
 DISPLAY_INTERVAL = 3
 

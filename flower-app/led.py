@@ -3,8 +3,8 @@ import asyncio
 
 async def _send_to_matrix(message: str):
     from aioesphomeapi import APIClient
-    host = os.getenv('ESP32_HOST')
-    key = os.getenv('ESP32_KEY')
+    host = os.getenv('ESP32_LED_HOST')
+    key = os.getenv('ESP32_LED_KEY')
     client = APIClient(host, 6053, "", noise_psk=key)
     await client.connect(login=True)
     _, services = await client.list_entities_services()

@@ -1,3 +1,5 @@
+config.env
+docs/superpowers/
 .env
 __pycache__/
 *.pyc

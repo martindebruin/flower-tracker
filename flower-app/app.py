@@ -9,11 +9,11 @@ from apscheduler.triggers.interval import IntervalTrigger
 import db
 import led
 
-load_dotenv()
+load_dotenv(os.path.join(os.path.dirname(__file__), '..', 'config.env'))
 db.init_db()
 
 app = Flask(__name__)
-ESP32_SENSOR_HOST = os.getenv('ESP32_SENSOR_HOST', 'ESP32_SENSOR_HOST')
+ESP32_SENSOR_HOST = os.getenv('ESP32_SENSOR_HOST')
 
 def read_sensor(sensor_id):
     response = requests.get(f"http://{ESP32_SENSOR_HOST}/binary_sensor/{sensor_id}", timeout=10)
