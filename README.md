@@ -1,4 +1,4 @@
-# Lilla Essingen Flower Tracker
+# Flower Tracker
 
 Soil moisture monitoring for houseplants. Reads 4 sensors, shows status on a web UI, LED matrix, and local LCD display.
 
