@@ -1,0 +1,14 @@
+[Unit]
+Description=Flower LCD Display
+After=network.target
+
+[Service]
+Type=simple
+User=martin
+WorkingDirectory=/home/martin/lcd-display
+ExecStart=/home/martin/lcd-venv/bin/python lcd_display.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
