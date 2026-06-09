@@ -5,26 +5,23 @@ from dotenv import load_dotenv
 from RPLCD.i2c import CharLCD
 
 load_dotenv(os.path.join(os.path.dirname(__file__), '..', 'config.env'))
-ESP32_HOST = os.getenv('ESP32_SENSOR_HOST', 'flower-sensor.local')
+SENSOR_API_HOST = os.getenv('SENSOR_API_HOST', 'localhost:5566')
 POLL_INTERVAL = 2 * 60 * 60  # 2 hours
 DISPLAY_INTERVAL = 3
 
 PLANTS = [
-    ("TRADESCANTIA", "tradescantia_pallida"),
+    ("TRADESCANTIA", "tradescantia"),
     ("AFRICAN MILK", "african_milk_bush"),
     ("SPANSK TIMJAN", "spansk_timjan"),
-    ("PALETTBLADEN", "palettbladen"),
 ]
 
 def fetch_readings():
-    results = {}
-    for name, sensor_id in PLANTS:
-        try:
-            r = requests.get(f"http://{ESP32_HOST}/binary_sensor/{sensor_id}", timeout=5)
-            results[name] = "FUKTIG" if r.json()["value"] else "TORR"
-        except Exception:
-            results[name] = "FEL"
-    return results
+    try:
+        r = requests.get(f"http://{SENSOR_API_HOST}/read", timeout=5)
+        data = r.json()
+        return {name: ("FUKTIG" if data.get(key) == "wet" else "TORR") for name, key in PLANTS}
+    except Exception:
+        return {name: "FEL" for name, _ in PLANTS}
 
 def main():
     lcd = CharLCD(i2c_expander='PCF8574', address=0x3f, port=1,

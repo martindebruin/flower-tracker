@@ -13,22 +13,16 @@ load_dotenv(os.path.join(os.path.dirname(__file__), '..', 'config.env'))
 db.init_db()
 
 app = Flask(__name__)
-ESP32_SENSOR_HOST = os.getenv('ESP32_SENSOR_HOST')
-
-def read_sensor(sensor_id):
-    response = requests.get(f"http://{ESP32_SENSOR_HOST}/binary_sensor/{sensor_id}", timeout=10)
-    response.raise_for_status()
-    return "wet" if response.json()['value'] else "dry"
+SENSOR_API_HOST = os.getenv('SENSOR_API_HOST')
 
 def do_read():
     try:
-        tradescantia = read_sensor('tradescantia_pallida')
-        african_milk_bush = read_sensor('african_milk_bush')
-        spansk_timjan = read_sensor('spansk_timjan')
-        palettbladen = read_sensor('palettbladen')
+        response = requests.get(f"http://{SENSOR_API_HOST}/read", timeout=10)
+        response.raise_for_status()
+        data = response.json()
         timestamp = datetime.datetime.now().isoformat()
-        db.save_reading(timestamp, tradescantia, african_milk_bush, spansk_timjan, palettbladen)
-        led.notify_if_dry(tradescantia, african_milk_bush, spansk_timjan, palettbladen)
+        db.save_reading(timestamp, data['tradescantia'], data['african_milk_bush'], data['spansk_timjan'])
+        led.notify_if_dry(data['tradescantia'], data['african_milk_bush'], data['spansk_timjan'])
     except Exception as e:
         print(f"Error in do_read: {e}")
 

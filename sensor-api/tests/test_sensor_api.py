@@ -22,7 +22,8 @@ def test_read_wet(client):
     r = c.get('/read')
     assert r.status_code == 200
     data = r.get_json()
-    assert data['ettan'] == 'wet'
+    assert data['tradescantia'] == 'wet'
+    assert data['african_milk_bush'] == 'wet'
     assert data['spansk_timjan'] == 'wet'
     assert 'timestamp' in data
 
@@ -31,7 +32,8 @@ def test_read_dry(client):
     mock_gpio.input.return_value = 1
     r = c.get('/read')
     data = r.get_json()
-    assert data['ettan'] == 'dry'
+    assert data['tradescantia'] == 'dry'
+    assert data['african_milk_bush'] == 'dry'
     assert data['spansk_timjan'] == 'dry'
 
 def test_health(client):

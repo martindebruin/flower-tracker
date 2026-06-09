@@ -14,19 +14,18 @@ def init_db():
                 timestamp TEXT,
                 tradescantia TEXT,
                 african_milk_bush TEXT,
-                spansk_timjan TEXT,
-                palettbladen TEXT
+                spansk_timjan TEXT
             )
         ''')
         conn.commit()
 
-def save_reading(timestamp, tradescantia, african_milk_bush, spansk_timjan, palettbladen):
+def save_reading(timestamp, tradescantia, african_milk_bush, spansk_timjan):
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
         cursor.execute('''
-            INSERT INTO readings (timestamp, tradescantia, african_milk_bush, spansk_timjan, palettbladen)
-            VALUES (?, ?, ?, ?, ?)
-        ''', (timestamp, tradescantia, african_milk_bush, spansk_timjan, palettbladen))
+            INSERT INTO readings (timestamp, tradescantia, african_milk_bush, spansk_timjan)
+            VALUES (?, ?, ?, ?)
+        ''', (timestamp, tradescantia, african_milk_bush, spansk_timjan))
         cutoff_date = (datetime.utcnow() - timedelta(days=30)).isoformat()
         cursor.execute('DELETE FROM readings WHERE timestamp < ?', (cutoff_date,))
         conn.commit()
@@ -43,6 +42,5 @@ def get_latest():
                 'tradescantia': row['tradescantia'],
                 'african_milk_bush': row['african_milk_bush'],
                 'spansk_timjan': row['spansk_timjan'],
-                'palettbladen': row['palettbladen']
             }
         return None

@@ -107,15 +107,8 @@
                 <div class="timestamp">Sista: {{ ts }}</div>
             </div>
 
-            <div class="plant-row">
-                <div class="plant-name">Palettbladen</div>
-                <div class="badge {{ reading.palettbladen }}">
-                    {{ 'Fuktig' if reading.palettbladen == 'wet' else 'Torr' }}
-                </div>
-                <div class="timestamp">Sista: {{ ts }}</div>
-            </div>
         {% else %}
-            {% for name in ['Tradescantia Pallida', 'African Milk Bush', 'Spansk Timjan', 'Palettbladen'] %}
+            {% for name in ['Tradescantia Pallida', 'African Milk Bush', 'Spansk Timjan'] %}
             <div class="plant-row">
                 <div class="plant-name">{{ name }}</div>
                 <div class="badge unknown">Okänd</div>

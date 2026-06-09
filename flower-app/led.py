@@ -15,7 +15,7 @@ async def _send_to_matrix(message: str):
     await asyncio.sleep(0.3)
     await client.disconnect()
 
-def notify_if_dry(tradescantia: str, african_milk_bush: str, spansk_timjan: str, palettbladen: str):
+def notify_if_dry(tradescantia: str, african_milk_bush: str, spansk_timjan: str):
     messages = []
     if tradescantia == "dry":
         messages.append("VATTNA TRADESCANTIA")
@@ -23,7 +23,5 @@ def notify_if_dry(tradescantia: str, african_milk_bush: str, spansk_timjan: str,
         messages.append("VATTNA AFRICAN MILK BUSH")
     if spansk_timjan == "dry":
         messages.append("VATTNA SPANSK TIMJAN")
-    if palettbladen == "dry":
-        messages.append("VATTNA PALETTBLADEN")
     combined = "  ".join(messages) if messages else "JUST YOLO IT"
     asyncio.run(_send_to_matrix(combined))
